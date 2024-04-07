@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root{
+    --translucentElement: rgba(230, 230, 230, 0.3);
+}
+
+body{
+    font-family: "Poppins", sans-serif;
+}
+
+@mixin listElement{
+    width: 70%;
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--translucentElement);
+    border-radius: 15px;
+}
+
+body{
+    margin: 0px;
+    overflow: hidden;
+    background-color: #003049;
+}
+
+.NavBar{
+    background-color: #023047;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.HomePage{
+    width: 100vw;
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    img{
+        width: 50vw;
+        position: relative;
+        right: 3%;
+    }
+}
+
+.ProductList{
+    width: 100vw;
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+
+    .SearchBar{
+        @include listElement();
+
+        form{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .Buttons{
+            display: flex;
+            gap: 15px;
+        }
+    }
+
+    .ProductContainer{
+        background-color: var(--translucentElement);
+        border-radius: 15px;
+        width: 90vw;
+        height: 60%;
+        padding: 15px;
+        margin-top: 20px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        .product{
+            @include listElement();
+            padding: 0px 15px;
+            margin: 5px;
+            width: calc(100% - 30px);
+        }
+    }
+}
+
+.modal{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 5;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    form{
+        display: flex;
+        width: 50vw;
+        flex-direction: column;
+        background-color: var(--translucentElement);
+        padding: 20px;
+        border-radius: 15px;
+        gap: 10px;
+        text-align: center;
+
+        .Buttons{
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    }
+}

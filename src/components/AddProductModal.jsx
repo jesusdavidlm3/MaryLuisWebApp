@@ -13,10 +13,6 @@ export const AddProductModal = ({close}) => {
             gain: e.target[6].value,
         }
 
-        // const data = {
-        //     name: e.target[0].value,
-        //     price: (packPrice/qtty)+((packPrice/qtty)*(percent/100)),
-        // }
         await addProduct(data)
     }
 

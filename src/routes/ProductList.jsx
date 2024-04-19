@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, Button } from "@mui/material";
 import { AddProductModal } from '../components/AddProductModal';
 import { getAllProducts} from '../functions/firebaseQuerys';
@@ -6,10 +6,16 @@ import { getAllProducts} from '../functions/firebaseQuerys';
 const ProductList = () => {
 
     const [addModal, setAddModal] = useState(false)
-
     const dolar = 39
+    const [showList, setShowList] = useState([])
 
-    let showList = []
+    useEffect(() => {
+        async function getList(){
+            setShowList(await getAllProducts())
+            console.log(showList)
+        }
+        getList()
+    }, [])
 
     return(
         <div className='ProductList'>
@@ -28,8 +34,8 @@ const ProductList = () => {
             </div>
             
             <div className="ProductContainer">
-                {infoPrueba.map((product) => <div className='product'>
-                    <h3>{product.name}</h3>
+                {showList.map((product) => <div className='product'>
+                    <h3>{product.data.name}</h3>
                     <h3>${(product.precioPack / product.packQtty).toFixed(2)}</h3>
                     <h3>Bs.{((product.precioPack / product.packQtty)*dolar).toFixed(2)}</h3>
                     <Button variant='contained'>Cambiar precio</Button>

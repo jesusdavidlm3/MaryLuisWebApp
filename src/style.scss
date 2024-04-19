@@ -98,6 +98,7 @@ body{
     z-index: 5;
     backdrop-filter: blur(10px);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -115,6 +116,27 @@ body{
             margin-top: 10px;
             display: flex;
             justify-content: space-evenly;
+        }
+    }
+}
+
+.editProduct{
+
+    form{
+
+        h1{
+            margin: 0px;
+        }
+
+        .comparison{
+            display: flex;
+            justify-content: space-evenly;
+
+            .panel{
+                background-color: var(--translucentElement);
+                padding: 10px;
+                border-radius: 15px;
+            }
         }
     }
 }

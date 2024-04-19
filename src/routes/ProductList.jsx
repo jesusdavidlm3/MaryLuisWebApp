@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { TextField, Button } from "@mui/material";
-import { AddProductModal } from '../components/AddProductModal';
+import { AddProductModal, ChangePriceModal } from '../components/Modals';
 import { getAllProducts} from '../functions/firebaseQuerys';
 
 const ProductList = () => {
 
     const [addModal, setAddModal] = useState(false)
+    const [changePriceModal, setChangePriceModal] = useState(false)
     const dolar = 39
     const [showList, setShowList] = useState([])
+    const [selectedProduct, setSelectedProduct] = useState('')
 
     useEffect(() => {
         async function getList(){
             setShowList(await getAllProducts())
-            console.log(showList)
         }
         getList()
     }, [])
+
+    const handleChangePrice = (product) => {
+        setSelectedProduct(product)
+        setChangePriceModal(!changePriceModal)
+    }
 
     return(
         <div className='ProductList'>
@@ -34,14 +40,15 @@ const ProductList = () => {
             </div>
             
             <div className="ProductContainer">
-                {showList.map((product) => <div className='product'>
+                {showList.map((product) => <div className='product' key={product.id}>
                     <h3>{product.data.name}</h3>
-                    <h3>${(product.precioPack / product.packQtty).toFixed(2)}</h3>
-                    <h3>Bs.{((product.precioPack / product.packQtty)*dolar).toFixed(2)}</h3>
-                    <Button variant='contained'>Cambiar precio</Button>
+                    <h3>${(product.data.fPrice / product.data.qtty).toFixed(2)}</h3>
+                    <h3>Bs.{((product.data.fPrice / product.data.qtty)*dolar).toFixed(2)}</h3>
+                    <Button variant='contained' onClick={(productId) => handleChangePrice(product)}>Cambiar precio</Button>
                 </div>)}
             </div>
             {addModal && <AddProductModal close={() => setAddModal(false)}/>}
+            {changePriceModal && <ChangePriceModal product={selectedProduct} close={handleChangePrice}/>}
         </div>
     )
 }

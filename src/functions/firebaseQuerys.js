@@ -1,4 +1,4 @@
-import { setDoc, addDoc, getDocs, collection, doc, getDoc } from "firebase/firestore";
+import { setDoc, addDoc, getDocs, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export async function addProduct(data){
@@ -18,6 +18,14 @@ export async function getAllProducts(){
     querySnapshot.forEach((doc) => {
         response = [...response, {id: doc.id, data: doc.data()}]
     });
-    // console.log(response)
     return response
+}
+
+export async function updateProduct(productId, data){
+    const docRef = doc(db, 'products', productId)
+    await updateDoc(docRef, {
+        fPrice: data.newFprice,
+        qtty: data.newQtty,
+        gain: data.newGain
+    })
 }

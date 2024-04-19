@@ -1,7 +1,7 @@
 import React from "react"
 import { useEffect, useState } from "react"
 import { TextField, Button } from "@mui/material"
-import { addProduct } from "../functions/firebaseQuerys"
+import { addProduct, updateProduct } from "../functions/firebaseQuerys"
 
 export const AddProductModal = ({close}) => {
 
@@ -50,9 +50,19 @@ export const ChangePriceModal = ({product, close}) => {
         setNewPrice((newFprice / newQtty) + ((newFprice / newQtty)*(newGain/100)))
     }
 
+    async function handleSubmit(e){
+        e.preventDefault()
+        const data = {
+            newFprice: Number(fPriceField.value),
+            newQtty: Number(qttyField.value),
+            newGain: Number(gainField.value),
+        }
+        updateProduct(productInfo.id, data)
+    }
+
     return(
         <div className="modal editProduct">
-            <form>
+            <form onSubmit={handleSubmit}>
                 <h1>{productInfo.data.name}</h1>
 
                 <div className="comparison">
@@ -71,8 +81,8 @@ export const ChangePriceModal = ({product, close}) => {
                 <TextField label='Que ganancia deseas obtener?' type="number"onChange={() => calculateNewPrice()} id='gainField'/>
 
                 <div className="Buttons">
-                    <Button variant="contained" onClick={close}>Guardar</Button>
                     <Button variant="contained" onClick={close}>Cancelar</Button>
+                    <Button variant="contained" type="submit">Guardar</Button>
                 </div>
 
                 </form>

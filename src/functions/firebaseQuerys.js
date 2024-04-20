@@ -1,4 +1,4 @@
-import { setDoc, addDoc, getDocs, collection, doc, updateDoc } from "firebase/firestore";
+import { deleteDoc, addDoc, getDocs, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export async function addProduct(data){
@@ -28,4 +28,8 @@ export async function updateProduct(productId, data){
         qtty: data.newQtty,
         gain: data.newGain
     })
+}
+
+export async function deleteProduct(productId){
+    await deleteDoc(doc(db, 'products', productId))
 }

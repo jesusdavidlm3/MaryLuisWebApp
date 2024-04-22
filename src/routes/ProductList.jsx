@@ -43,8 +43,7 @@ const ProductList = () => {
     }
 
     async function handleSearch(e){
-        e.preventDefault()
-        setShowList(await searchProducts(e.target[0].value))
+        setShowList(await searchProducts(lookedProduct.value))
     }
 
     return(
@@ -52,10 +51,9 @@ const ProductList = () => {
             <h1>Lista de Productos</h1>
             
             <div className='SearchBar'>
-                <form onSubmit={handleSearch}>
-                    <TextField label='Que producto buscas?'/>
-                    <Button variant='contained' type='submit'>Buscar</Button>
-                </form>
+                {/* <form> */}
+                    <TextField label='Que producto buscas?' onChange={handleSearch} id='lookedProduct'/>
+                {/* </form> */}
 
                 <div className='Buttons'>
                     <Button variant='contained' onClick={() => getList()}>Mostrar todo</Button>

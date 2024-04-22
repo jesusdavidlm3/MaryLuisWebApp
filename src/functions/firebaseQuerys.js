@@ -1,4 +1,5 @@
 import { deleteDoc, addDoc, getDocs, collection, doc, updateDoc, query, orderBy } from "firebase/firestore";
+import { capitalize } from "./normalizeInfo";
 import { db } from "../../firebase";
 
 export async function addProduct(data){
@@ -33,4 +34,29 @@ export async function updateProduct(productId, data){
 
 export async function deleteProduct(productId){
     await deleteDoc(doc(db, 'products', productId))
+}
+
+export async function searchProducts(productString){
+    
+    let fullResponse = []
+    let filteredResponse = []
+
+    const q = query(collection(db, "products"), orderBy('name'))
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        fullResponse = [...fullResponse, {id: doc.id, data: doc.data()}]
+    });
+
+    fullResponse.forEach((result) => {
+
+        const searched = result.data.name
+
+        if (searched.includes(productString)){
+            filteredResponse = [...filteredResponse, result]
+        }else if(searched.includes(capitalize(productString))){
+            filteredResponse = [...filteredResponse, result]
+        }
+    })
+
+    return filteredResponse
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { TextField, Button, Fab } from "@mui/material";
 import { AddProductModal, ChangePriceModal, DeleteProductModal } from '../components/Modals';
-import { getAllProducts} from '../functions/firebaseQuerys';
+import { getAllProducts, searchProducts } from '../functions/firebaseQuerys';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const ProductList = () => {
@@ -42,14 +42,19 @@ const ProductList = () => {
         getList()
     }
 
+    async function handleSearch(e){
+        e.preventDefault()
+        setShowList(await searchProducts(e.target[0].value))
+    }
+
     return(
         <div className='ProductList'>
             <h1>Lista de Productos</h1>
             
             <div className='SearchBar'>
-                <form>
+                <form onSubmit={handleSearch}>
                     <TextField label='Que producto buscas?'/>
-                    <Button variant='contained'>Buscar</Button>
+                    <Button variant='contained' type='submit'>Buscar</Button>
                 </form>
 
                 <div className='Buttons'>

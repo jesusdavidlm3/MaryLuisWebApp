@@ -8,6 +8,7 @@ import ProductList from './routes/ProductList'
 import HomePage from './routes/HomePage'
 import Clients from './routes/Clients'
 import Configs from './routes/Configs'
+import AppContextProvider from './context/ContextProvider'
 
 const router = createBrowserRouter([
   {
@@ -36,12 +37,7 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <>
+  <AppContextProvider>
     <RouterProvider router={router} />
-  </>
+  </AppContextProvider>
 )
-
-// Use contextBridge
-// window.ipcRenderer.on('main-process-message', (_event, message) => {
-//   console.log(message)
-// })

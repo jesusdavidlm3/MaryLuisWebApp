@@ -1,49 +1,49 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { TextField, Button, Fab } from "@mui/material";
 import { AddProductModal, ChangePriceModal, DeleteProductModal } from '../components/Modals';
 import { getAllProducts, searchProducts } from '../functions/firebaseQuerys';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { AppContext } from '../context/AppContext';
+import { capitalize } from '../functions/normalizeInfo';
 
 const ProductList = () => {
 
+    const { productList, setProductList } = useContext(AppContext)
+    const [showList, setShowList] = useState(productList)
     const [addModal, setAddModal] = useState(false)
     const [changePriceModal, setChangePriceModal] = useState(false)
     const [deleteProductModal, setDeleteProductModal] = useState(false)
     const dolar = 39
-    const [showList, setShowList] = useState([])
     const [selectedProduct, setSelectedProduct] = useState('')
-
-    async function getList(){
-        setShowList(await getAllProducts())
-    }
-
-    useEffect(() => {
-        getList()
-    }, [])
 
     async function handleChangePrice(product){
         setSelectedProduct(product)
-        setChangePriceModal(!changePriceModal)
-        if(changePriceModal){
-            getList()
-        }    
+        setChangePriceModal(!changePriceModal)    
     }
 
     async function handleDelete(product){
         setSelectedProduct(product)
         setDeleteProductModal(!deleteProductModal)
-        if(deleteProductModal){
-            getList()
-        }
     }
 
     async function closeAddProduct(){
         setAddModal(false)
-        getList()
     }
 
-    async function handleSearch(e){
-        setShowList(await searchProducts(lookedProduct.value))
+    const handleSearch = (e) => {
+        const results = []
+        if(e.target.value == ''){
+            setShowList(productList)
+        }else{
+            productList.forEach(item => {
+                if(item.data.name.includes(e.target.value)){
+                    results.push(item)
+                }else if(item.data.name.includes(capitalize(e.target.value))){
+                    results.push(item)
+                }
+            })
+            setShowList(results)
+        }
     }
 
     return(
@@ -55,10 +55,10 @@ const ProductList = () => {
                     <TextField label='Que producto buscas?' onChange={handleSearch} id='lookedProduct'/>
                 {/* </form> */}
 
-                <div className='Buttons'>
-                    <Button variant='contained' onClick={() => getList()}>Mostrar todo</Button>
+                {/* <div className='Buttons'> */}
+                    {/* <Button variant='contained' onClick={() => getList()}>Mostrar todo</Button> */}
                     <Button variant='contained' onClick={() => setAddModal(true)}>Agregar Producto</Button>
-                </div>
+                {/* </div> */}
             </div>
             
             <div className="ProductContainer">

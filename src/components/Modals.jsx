@@ -1,14 +1,16 @@
 import React from "react"
 import { useEffect, useState } from "react"
-import { TextField, Button } from "@mui/material"
+import { TextField, Button, CircularProgress } from "@mui/material"
 import { addProduct, updateProduct, deleteProduct } from "../functions/firebaseQuerys"
 
-export const AddProductModal = ({close}) => {
+export const AddProductModal = ({close, update}) => {
 
     const [success, setSuccess] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     async function handleSubmit(e){
         e.preventDefault()
+        setLoading(true)
         const data = {
             name: e.target[0].value,
             fPrice: e.target[2].value,
@@ -16,7 +18,9 @@ export const AddProductModal = ({close}) => {
             gain: e.target[6].value,
         }
         await addProduct(data)
-        .then(() => {setSuccess(true)})
+        .then(() => {
+            setSuccess(true)
+        })
     }
 
     return(
@@ -24,19 +28,19 @@ export const AddProductModal = ({close}) => {
                 {success ? (
                     <div className='successDialog'>
                         <h1>Ya se agrego</h1>
-                        <Button variant='contained' color='error' onClick={close}>Cerrar</Button>
+                        <Button variant='contained' color='error' onClick={() => {close(); update()}}>Cerrar</Button>
                     </div>
                 ):(
                     <form onSubmit={handleSubmit}>
                         <h1>Agregar un Producto</h1>
-                        <TextField label='Como se llama el producto?'/>
-                        <TextField label='Cuanto costo el bulto?' type=""/>
-                        <TextField label='Cuantas unidades trae el bulto?' type="number"/>
-                        <TextField label='Que ganancia deseas obtener?' type="number"/>
+                        <TextField label='Como se llama el producto?' disabled={loading}/>
+                        <TextField label='Cuanto costo el bulto?' type="" disabled={loading}/>
+                        <TextField label='Cuantas unidades trae el bulto?' type="number" disabled={loading}/>
+                        <TextField label='Que ganancia deseas obtener?' type="number" disabled={loading}/>
 
                         <div className='Buttons'>
-                            <Button variant="contained" type="submit">Guardar</Button>
-                            <Button variant='contained' color='error' onClick={close}>Cancelar</Button>
+                            <Button variant="contained" type="submit" disabled={loading}>{loading ? (<CircularProgress size={24}/>):(<>Guardar</>)}</Button>
+                            <Button variant='contained' color='error' onClick={close} disabled={loading}>Cancelar</Button>
                         </div>
                     </form>
                 )}
@@ -44,9 +48,10 @@ export const AddProductModal = ({close}) => {
     )
 }
 
-export const ChangePriceModal = ({product, close}) => {
+export const ChangePriceModal = ({product, close, update}) => {
 
     const [success, setSuccess] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [productInfo, setProductInfo] = useState(product)
     const [oldPrice, setOldPrice] = useState((productInfo.data.fPrice / productInfo.data.qtty) + ((productInfo.data.fPrice / productInfo.data.qtty)*(productInfo.data.gain / 100)))
     const [newPrice, setNewPrice] = useState('')
@@ -62,6 +67,7 @@ export const ChangePriceModal = ({product, close}) => {
 
     async function handleSubmit(e){
         e.preventDefault()
+        setLoading(true)
         const data = {
             newFprice: Number(fPriceField.value),
             newQtty: Number(qttyField.value),
@@ -75,7 +81,7 @@ export const ChangePriceModal = ({product, close}) => {
         <div className="modal editProduct">
             {success ? (<div className='successDialog'>
                 <h1>Ya se cambio el Precio</h1>
-                <Button variant="contained" onClick={close} color='error'>cerrar</Button>
+                <Button variant="contained" onClick={() => {close(); update()}} color='error'>cerrar</Button>
             </div>):(
                 <form onSubmit={handleSubmit}>
                     <h1>{productInfo.data.name}</h1>
@@ -91,13 +97,13 @@ export const ChangePriceModal = ({product, close}) => {
                         </div>
                     </div>
                     
-                    <TextField label='Cuanto costo el bulto?' type="" onChange={() => calculateNewPrice()} id='fPriceField'/>
-                    <TextField label='Cuantas unidades trae el bulto?' type="number"onChange={() => calculateNewPrice()} id='qttyField'/>
-                    <TextField label='Que ganancia deseas obtener?' type="number"onChange={() => calculateNewPrice()} id='gainField'/>
+                    <TextField label='Cuanto costo el bulto?' type="" onChange={() => calculateNewPrice()} id='fPriceField' disabled={loading}/>
+                    <TextField label='Cuantas unidades trae el bulto?' type="number"onChange={() => calculateNewPrice()} id='qttyField' disabled={loading}/>
+                    <TextField label='Que ganancia deseas obtener?' type="number"onChange={() => calculateNewPrice()} id='gainField' disabled={loading}/>
 
                     <div className="Buttons">
-                        <Button variant="contained" onClick={close} color='error'>Cancelar</Button>
-                        <Button variant="contained" type="submit">Guardar</Button>
+                        <Button variant="contained" onClick={close} color='error' disabled={loading}>Cancelar</Button>
+                        <Button variant="contained" type="submit" disabled={loading}>{loading ? (<CircularProgress size={24}/>):(<>guardar</>)}</Button>
                     </div>
                 </form>
             )}
@@ -106,12 +112,14 @@ export const ChangePriceModal = ({product, close}) => {
     )
 }
 
-export const DeleteProductModal = ({product, close}) => {
+export const DeleteProductModal = ({product, close, update}) => {
 
     const [success, setSuccess] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
 
     async function handleConfirm(){
+        setLoading(true)
         deleteProduct(product.id)
         .then(() => setSuccess(true))
         .catch(() => setError(true))
@@ -122,15 +130,15 @@ export const DeleteProductModal = ({product, close}) => {
             {success ? (
                 <div className='successDialog'>
                     <h1>Ya se borro</h1>
-                    <Button variant="contained" onClick={close}>Cerrar</Button>
+                    <Button variant="contained" onClick={() => {close(); update()}}>Cerrar</Button>
                 </div>
             ):(
                 <div className="successDialog">
                     <h1>Seguro de que deseas borrar {product.data.name}?</h1>
                     {error && <h1>Tenemos problemas, intenta mas tarde</h1>}
                     <div className="Buttons">
-                        <Button variant='contained' onClick={close} color='error'>Cancelar</Button>
-                        <Button variant='contained' onClick={handleConfirm}>Borrar</Button>
+                        <Button variant='contained' onClick={close} color='error' disabled={loading}>Cancelar</Button>
+                        <Button variant='contained' onClick={handleConfirm} disabled={loading}>{loading ? (<CircularProgress/>):(<>Borrar</>)}</Button>
                     </div>
                 </div>
             )}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { TextField, Button, Fab } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import { AddProductModal, ChangePriceModal, DeleteProductModal } from '../components/Modals';
-import { getAllProducts, searchProducts } from '../functions/firebaseQuerys';
+import { getAllProducts} from '../functions/firebaseQuerys';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AppContext } from '../context/AppContext';
 import { capitalize } from '../functions/normalizeInfo';
@@ -46,6 +46,13 @@ const ProductList = () => {
         }
     }
 
+    async function updateList(){
+        const bar = document.getElementById('lookedProduct')
+        bar.value = ''
+        setProductList(await getAllProducts())
+        setShowList(productList)
+    }
+
     return(
         <div className='ProductList'>
             <h1>Lista de Productos</h1>
@@ -73,9 +80,9 @@ const ProductList = () => {
                     
                 </div>)}
             </div>
-            {addModal && <AddProductModal close={closeAddProduct}/>}
-            {changePriceModal && <ChangePriceModal product={selectedProduct} close={handleChangePrice}/>}
-            {deleteProductModal && <DeleteProductModal product={selectedProduct} close={handleDelete}/>}
+            {addModal && <AddProductModal close={closeAddProduct} update={updateList}/>}
+            {changePriceModal && <ChangePriceModal product={selectedProduct} close={handleChangePrice} update={updateList}/>}
+            {deleteProductModal && <DeleteProductModal product={selectedProduct} close={handleDelete} update={updateList}/>}
         </div>
     )
 }

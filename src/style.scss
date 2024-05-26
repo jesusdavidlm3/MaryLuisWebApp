@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 :root{
-    --translucentElement: rgba(230, 230, 230, 0.3);
+    --translucentElement: rgba(200, 200, 200, 0.1);
 }
 
 body{
@@ -112,7 +112,7 @@ body{
         display: flex;
         width: 50vw;
         flex-direction: column;
-        background-color: var(--translucentElement);
+        background-color: rgba(200, 200, 200, 0.2);
         padding: 20px;
         border-radius: 15px;
         gap: 10px;

@@ -50,6 +50,7 @@ export const AddProductModal = ({close, update}) => {
 
 export const ChangePriceModal = ({product, close, update}) => {
 
+    console.log(product)
     const [success, setSuccess] = useState(false)
     const [loading, setLoading] = useState(false)
     const [productInfo, setProductInfo] = useState(product)
@@ -97,9 +98,9 @@ export const ChangePriceModal = ({product, close, update}) => {
                         </div>
                     </div>
                     
-                    <TextField label='Cuanto costo el bulto?' type="" onChange={() => calculateNewPrice()} id='fPriceField' disabled={loading}/>
-                    <TextField label='Cuantas unidades trae el bulto?' type="number"onChange={() => calculateNewPrice()} id='qttyField' disabled={loading}/>
-                    <TextField label='Que ganancia deseas obtener?' type="number"onChange={() => calculateNewPrice()} id='gainField' disabled={loading}/>
+                    <TextField label='Cuanto costo el bulto?' type="" onChange={() => calculateNewPrice()} id='fPriceField' disabled={loading} defaultValue={product.data.fPrice}/>
+                    <TextField label='Cuantas unidades trae el bulto?' type="number"onChange={() => calculateNewPrice()} id='qttyField' disabled={loading} defaultValue={product.data.qtty}/>
+                    <TextField label='Que ganancia deseas obtener?' type="number"onChange={() => calculateNewPrice()} id='gainField' disabled={loading} defaultValue={product.data.gain}/>
 
                     <div className="Buttons">
                         <Button variant="contained" onClick={close} color='error' disabled={loading}>Cancelar</Button>

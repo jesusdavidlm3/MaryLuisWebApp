@@ -15,6 +15,7 @@ const ProductList = () => {
     const [deleteProductModal, setDeleteProductModal] = useState(false)
     const dolar = 39
     const [selectedProduct, setSelectedProduct] = useState('')
+    const [count, setCount] = useState(0)
 
     async function handleChangePrice(product){
         setSelectedProduct(product)
@@ -31,6 +32,7 @@ const ProductList = () => {
     }
 
     const handleSearch = (e) => {
+        setCount(10)
         const results = []
         if(e.target.value == ''){
             setShowList(productList)
@@ -52,6 +54,19 @@ const ProductList = () => {
         setProductList(await getAllProducts())
         setShowList(productList)
     }
+
+    useEffect(() => {
+        const bar = document.getElementById('lookedProduct')
+        const decrease = setInterval(() => {
+            if(count > 0){
+                setCount(count - 1)
+            }else if (count == 0){
+                bar.value = ''
+                setShowList(productList)
+            }
+        }, 1000)
+        return () => clearInterval(decrease)
+    }, [count])
 
     return(
         <div className='ProductList'>

@@ -50,7 +50,7 @@ export const AddProductModal = ({close, update}) => {
 
 export const ChangePriceModal = ({product, close, update}) => {
 
-    console.log(product)
+    useEffect(() => {calculateNewPrice()}, [])
     const [success, setSuccess] = useState(false)
     const [loading, setLoading] = useState(false)
     const [productInfo, setProductInfo] = useState(product)
@@ -59,7 +59,6 @@ export const ChangePriceModal = ({product, close, update}) => {
     const dolar = 39
 
     const calculateNewPrice = () => {
-        console.log('se esta ejecutando')
         const newFprice = Number(fPriceField.value)
         const newQtty = Number(qttyField.value)
         const newGain = Number(gainField.value)

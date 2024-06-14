@@ -4,11 +4,14 @@ import { useState } from "react";
 const AppContextProvider = ({children}) => {
 
     const [productList, setProductList] = useState([])
+    const [dollarPrice, setDollarPrice] = useState(0)
 
     return(
         <AppContext.Provider value={{
             productList,
-            setProductList
+            setProductList,
+            dollarPrice,
+            setDollarPrice
         }}>
             {children}
         </AppContext.Provider>

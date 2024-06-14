@@ -1,4 +1,4 @@
-import { deleteDoc, addDoc, getDocs, collection, doc, updateDoc, query, orderBy } from "firebase/firestore";
+import { deleteDoc, addDoc, getDocs, collection, doc, updateDoc, query, orderBy, setDoc, } from "firebase/firestore";
 import { capitalize } from "./normalizeInfo";
 import { db } from "../../firebase";
 
@@ -34,4 +34,15 @@ export async function updateProduct(productId, data){
 
 export async function deleteProduct(productId){
     await deleteDoc(doc(db, 'products', productId))
+}
+
+export async function updatePassword(){
+
+}
+
+export async function updateDollarPrice(dollarPrice){
+    console.log(dollarPrice)
+    await setDoc(doc(db, 'config', 'dollar'), {
+        value: dollarPrice,
+    })
 }

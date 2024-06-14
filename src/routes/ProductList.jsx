@@ -74,7 +74,7 @@ const ProductList = () => {
             
             <div className='SearchBar'>
                 {/* <form> */}
-                    <TextField label='Que producto buscas?' onChange={handleSearch} id='lookedProduct'/>
+                    <TextField label='Que producto buscas?' onChange={handleSearch} id='lookedProduct' />
                 {/* </form> */}
 
                 {/* <div className='Buttons'> */}

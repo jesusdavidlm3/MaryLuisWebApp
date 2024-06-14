@@ -18,6 +18,15 @@ body{
     border-radius: 15px;
 }
 
+@mixin pageBasics{
+    width: 100vw;
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
 body{
     margin: 0px;
     overflow: hidden;
@@ -49,12 +58,7 @@ body{
 }
 
 .ProductList{
-    width: 100vw;
-    height: calc(100vh - 60px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
+    @include pageBasics;
 
     .SearchBar{
         @include listElement();
@@ -112,7 +116,7 @@ body{
         display: flex;
         width: 50vw;
         flex-direction: column;
-        background-color: rgba(200, 200, 200, 0.2);
+        background-color: rgba(110, 110, 110, 0.6);
         padding: 20px;
         border-radius: 15px;
         gap: 10px;
@@ -158,5 +162,28 @@ body{
     .Buttons{
         display: flex;
         gap: 15px
+    }
+}
+
+.ConfigPage{
+    @include pageBasics;
+    gap: 30px;
+    overflow: scroll;
+
+    h1{
+        margin-bottom: 0px;
+    }
+
+    .Config{
+        h4{
+            margin: 0px;
+        }
+        background-color: var(--translucentElement);
+        border-radius: 15px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
     }
 }

@@ -1,14 +1,24 @@
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import NavBar from '../components/NavBar'
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { AppContext } from '../context/AppContext';
+import { getDollarPrice } from '../functions/firebaseQuerys';
 
 const Root = () => {
 
+    const {setDollarPrice} = useContext(AppContext)
     const navigate = useNavigate()
+
     useEffect(() => navigate('/home'), [])
+    useEffect(() => {
+        async function getPrice(){
+            setDollarPrice(await getDollarPrice())
+        }
+
+        getPrice()
+    }, [])
 
     const darkTheme = createTheme({
         palette: {

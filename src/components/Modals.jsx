@@ -2,6 +2,8 @@ import React from "react"
 import { useEffect, useState } from "react"
 import { TextField, Button, CircularProgress } from "@mui/material"
 import { addProduct, updateProduct, deleteProduct } from "../functions/firebaseQuerys"
+import { useContext } from "react"
+import { AppContext } from "../context/AppContext"
 
 export const AddProductModal = ({close, update}) => {
 
@@ -56,7 +58,7 @@ export const ChangePriceModal = ({product, close, update}) => {
     const [productInfo, setProductInfo] = useState(product)
     const [oldPrice, setOldPrice] = useState((productInfo.data.fPrice / productInfo.data.qtty) + ((productInfo.data.fPrice / productInfo.data.qtty)*(productInfo.data.gain / 100)))
     const [newPrice, setNewPrice] = useState('')
-    const dolar = 39
+    const { dollarPrice } = useContext(AppContext)
 
     const calculateNewPrice = () => {
         const newFprice = Number(fPriceField.value)
@@ -89,11 +91,11 @@ export const ChangePriceModal = ({product, close, update}) => {
                     <div className="comparison">
                         <div className="panel">
                             <h4>Precio anterior: ${oldPrice.toFixed(2)}</h4>
-                            <h4>Precio anterior: Bs. {(oldPrice * dolar).toFixed(2)}</h4>
+                            <h4>Precio anterior: Bs. {(oldPrice * dollarPrice).toFixed(2)}</h4>
                         </div>
                         <div className="panel">
                             <h4>Precio nuevo: ${Number(newPrice).toFixed(2)}</h4>
-                            <h4>Precio nuevo: Bs. {(newPrice * dolar).toFixed(2)}</h4>
+                            <h4>Precio nuevo: Bs. {(newPrice * dollarPrice).toFixed(2)}</h4>
                         </div>
                     </div>
                     

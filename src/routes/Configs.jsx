@@ -2,12 +2,14 @@ import React from 'react'
 import { TextField, Button, CircularProgress } from '@mui/material'
 import { useState, useContext } from 'react'
 import { updateDollarPrice, updatePassword } from '../functions/firebaseQuerys'
+import { AppContext } from '../context/AppContext'
 
 
 const Configs = () => {
 
     const [success, setSuccess] = useState(false)
     const [loading, setLoading] = useState(false)
+    const { dollarPrice } = useContext(AppContext)
 
     async function handleUpdatePassword(){
         setLoading(true)
@@ -42,7 +44,7 @@ const Configs = () => {
             <h1>Configuracion</h1>
             <div className='Config'>
                 <h4>Cambiar precio del dolar</h4>
-                <TextField label='Precio del dolar' id='dollarPriceField'/>
+                <TextField label='Precio del dolar' id='dollarPriceField' defaultValue={dollarPrice}/>
                 <Button variant='contained' onClick={() => handleUpdateDollar()} disabled={loading}>{loading ? (<CircularProgress size={24}/>):('Guardar')}</Button>
             </div>
             <div className='Config'>

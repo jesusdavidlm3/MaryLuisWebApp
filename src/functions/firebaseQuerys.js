@@ -1,4 +1,4 @@
-import { deleteDoc, addDoc, getDocs, collection, doc, updateDoc, query, orderBy, setDoc, } from "firebase/firestore";
+import { deleteDoc, addDoc, getDocs, collection, doc, updateDoc, query, orderBy, setDoc, getDoc } from "firebase/firestore";
 import { capitalize } from "./normalizeInfo";
 import { db } from "../../firebase";
 
@@ -45,4 +45,12 @@ export async function updateDollarPrice(dollarPrice){
     await setDoc(doc(db, 'config', 'dollar'), {
         value: dollarPrice,
     })
+}
+
+export async function getDollarPrice(){
+    const docRef = doc(db, "config", "dollar")
+    const docSnap = await getDoc(docRef)
+    let result = docSnap.data()
+
+    return result.value
 }

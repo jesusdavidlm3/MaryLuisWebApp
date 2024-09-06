@@ -41,7 +41,6 @@ export async function updatePassword(){
 }
 
 export async function updateDollarPrice(dollarPrice){
-    console.log(dollarPrice)
     await setDoc(doc(db, 'config', 'dollar'), {
         value: dollarPrice,
     })

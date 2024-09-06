@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextField, Button, CircularProgress } from '@mui/material'
 import { useState, useContext } from 'react'
-import { updateDollarPrice, updatePassword } from '../functions/firebaseQuerys'
+import { updateDollarPrice, updatePassword, getAllProducts } from '../functions/firebaseQuerys'
 import { AppContext } from '../context/AppContext'
 
 
@@ -9,7 +9,7 @@ const Configs = () => {
 
     const [success, setSuccess] = useState(false)
     const [loading, setLoading] = useState(false)
-    const { dollarPrice } = useContext(AppContext)
+    const { setDollarPrice, dollarPrice, setProductList } = useContext(AppContext)
 
     async function handleUpdatePassword(){
         setLoading(true)
@@ -30,13 +30,17 @@ const Configs = () => {
         setLoading(true)
         updateDollarPrice(Number(dollarPriceField.value))
         .then((response) => {
-            console.log('hola')
+            async function updateList(){
+                setProductList(await getAllProducts())
+            }
+            updateList()
+
+            setDollarPrice(Number(dollarPriceField.value))
             setSuccess(true)
             setLoading(false)
         }).catch((err) => {
             console.log(err)
         })
-        console.log(dollarPriceField.value)
     }
 
     return(

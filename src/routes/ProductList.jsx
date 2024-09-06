@@ -66,6 +66,10 @@ const ProductList = () => {
         return () => clearInterval(decrease)
     }, [count])
 
+    useEffect(() => {
+        setShowList(productList)
+    }, [])
+
     return(
         <div className='ProductList'>
             <h1>Lista de Productos</h1>
